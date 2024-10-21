@@ -1,4 +1,4 @@
-package com.example.superheroes;
+package com.example.week3;
 
 import android.os.Bundle;
 
