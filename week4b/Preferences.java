@@ -4,64 +4,54 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class Preferences {
-    private static final String PREFS_NAME = "user_prefs";
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_PASSWORD = "password";
-    private static final String KEY_ADDRESS = "address";
-    private static final String KEY_PHONE_NUMBER = "phone_number";
+    private static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+    }
 
     public static void setUsername(Context context, String username) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_USERNAME, username);
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString("username", username);
         editor.apply();
     }
 
     public static String getUsername(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_USERNAME, null);
+        return getSharedPreferences(context).getString("username", null);
     }
 
+    // Password
     public static void setPassword(Context context, String password) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_PASSWORD, password);
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString("password", password);
         editor.apply();
     }
 
     public static String getPassword(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_PASSWORD, null);
+        return getSharedPreferences(context).getString("password", null);
     }
 
-    public static void setAddress(Context context, String address) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_ADDRESS, address);
+    public static void setEmail(Context context, String email) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString("email", email);
         editor.apply();
     }
 
-    public static String getAddress(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_ADDRESS, null);
+    public static String getEmail(Context context) {
+        return getSharedPreferences(context).getString("email", null);
     }
 
-    public static void setPhoneNumber(Context context, String phoneNumber) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_PHONE_NUMBER, phoneNumber);
+    public static void setPhone(Context context, String phone) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString("phone", phone);
         editor.apply();
     }
 
-    public static String getPhoneNumber(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_PHONE_NUMBER, null);
+    public static String getPhone(Context context) {
+        return getSharedPreferences(context).getString("phone", null);
     }
 
     public static void clearUserInfo(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // Clears all saved data
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.clear();
         editor.apply();
     }
 }

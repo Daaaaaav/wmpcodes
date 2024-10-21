@@ -2,66 +2,56 @@ package com.example.sharedpreferences;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
-    private EditText inputUser, inputPassword;
-    private Button buttonLogin;
+
+    private EditText inputUsername, inputPassword;
+    private Button btnLogin, btnGoToRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inputUser = findViewById(R.id.inputUser);
+        inputUsername = findViewById(R.id.inputUser);
         inputPassword = findViewById(R.id.inputPassword);
-        buttonLogin = findViewById(R.id.buttonLogin);
+        btnLogin = findViewById(R.id.btn_login);
+        btnGoToRegister = findViewById(R.id.btn_register);
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goLogin();
+                String username = inputUsername.getText().toString();
+                String password = inputPassword.getText().toString();
+
+                if (Preferences.getUsername(getBaseContext()) != null) {
+                    if (username.equals(Preferences.getUsername(getBaseContext())) &&
+                            password.equals(Preferences.getPassword(getBaseContext()))) {
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(Login.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(Login.this, "No account found. Please register.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this, Register.class);
+                    startActivity(intent);
+                }
             }
         });
-    }
 
-    private void goLogin() {
-        inputUser.setError(null);
-        inputPassword.setError(null);
-        boolean cancel = false;
-        View focus = null;
-
-        String username = inputUser.getText().toString();
-        String password = inputPassword.getText().toString();
-
-        if (TextUtils.isEmpty(username)) {
-            inputUser.setError("This field is required");
-            focus = inputUser;
-            cancel = true;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            inputPassword.setError("This field is required");
-            focus = inputPassword;
-            cancel = true;
-        }
-
-        if (cancel) {
-            focus.requestFocus();
-        } else {
-            if (Preferences.getUsername(getBaseContext()).equals(username) &&
-                    Preferences.getPassword(getBaseContext()).equals(password)) {
-                Intent intent = new Intent(Login.this, MainActivity.class);
+        btnGoToRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Register.class);
                 startActivity(intent);
-                finish();
-            } else {
-                inputUser.setError("Invalid username or password");
-                inputPassword.setError("Invalid username or password");
             }
-        }
+        });
     }
 }
